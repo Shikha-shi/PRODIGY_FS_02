@@ -8,7 +8,7 @@ engine=create_engine(
     (settings.DB_CONNECTION)
 )
 
-sessionLocal=sessionmaker(
+SessionLocal=sessionmaker(
     bind=engine,
     autoflush=False,
     autocommit=False
