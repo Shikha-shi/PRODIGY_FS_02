@@ -16,13 +16,20 @@ router = APIRouter(
     tags=["Employees"]
 )
 
-
 @router.post("/", response_model=EmployeeResponse)
 def add_employee(
     employee_data: EmployeeCreate,
     db: Session = Depends(get_db)
 ):
-    return create_employee(db, employee_data)
+    employee = create_employee(db, employee_data)
+
+    if not employee:
+        raise HTTPException(
+            status_code=400,
+            detail="Email already exists"
+        )
+
+    return employee
 
 
 @router.get("/", response_model=list[EmployeeResponse])

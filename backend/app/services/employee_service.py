@@ -1,3 +1,4 @@
+from sqlalchemy.exc import IntegrityError
 from sqlalchemy.orm import Session
 
 from app.models.employee import Employee
@@ -20,8 +21,13 @@ def create_employee(
     )
 
     db.add(employee)
-    db.commit()
-    db.refresh(employee)
+
+    try:
+        db.commit()
+        db.refresh(employee)
+    except IntegrityError:
+        db.rollback()
+        return None
 
     return employee
 
