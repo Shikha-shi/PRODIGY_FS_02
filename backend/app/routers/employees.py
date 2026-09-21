@@ -1,3 +1,4 @@
+from app.dependencies import get_current_user
 from fastapi import APIRouter, Depends, HTTPException
 from sqlalchemy.orm import Session
 
@@ -19,7 +20,8 @@ router = APIRouter(
 @router.post("/", response_model=EmployeeResponse)
 def add_employee(
     employee_data: EmployeeCreate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: str = Depends(get_current_user)
 ):
     employee = create_employee(db, employee_data)
 
@@ -34,7 +36,8 @@ def add_employee(
 
 @router.get("/", response_model=list[EmployeeResponse])
 def list_employees(
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: str = Depends(get_current_user)
 ):
     return get_all_employees(db)
 
@@ -42,7 +45,8 @@ def list_employees(
 @router.get("/{employee_id}", response_model=EmployeeResponse)
 def get_employee(
     employee_id: int,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: str = Depends(get_current_user)
 ):
     employee = get_employee_by_id(db, employee_id)
 
@@ -59,7 +63,8 @@ def get_employee(
 def edit_employee(
     employee_id: int,
     employee_data: EmployeeUpdate,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: str = Depends(get_current_user)
 ):
     employee = update_employee(
         db,
@@ -79,7 +84,8 @@ def edit_employee(
 @router.delete("/{employee_id}")
 def remove_employee(
     employee_id: int,
-    db: Session = Depends(get_db)
+    db: Session = Depends(get_db),
+    current_user: str = Depends(get_current_user)
 ):
     employee = delete_employee(
         db,
