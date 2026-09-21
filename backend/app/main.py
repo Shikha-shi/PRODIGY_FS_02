@@ -1,4 +1,8 @@
 from fastapi import FastAPI
+from app.database import Base, engine
+
+from app.models.employee import Employee
+Base.metadata.create_all(bind=engine)
 
 app = FastAPI(
     title="Employee Management System",
