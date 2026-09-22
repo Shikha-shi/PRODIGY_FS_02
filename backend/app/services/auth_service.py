@@ -3,11 +3,14 @@ from datetime import datetime, timedelta, timezone
 import jwt
 from pwdlib import PasswordHash
 
+from app.settings import settings
 password_hash = PasswordHash.recommended()
 
-SECRET_KEY = "change-this-secret-key"
+from app.settings import settings
+
+SECRET_KEY = settings.JWT_SECRET_KEY
 ALGORITHM = "HS256"
-ACCESS_TOKEN_EXPIRE_MINUTES = 60
+ACCESS_TOKEN_EXPIRE_MINUTES = settings.JWT_EXPIRE_MINUTES
 
 
 def hash_password(password: str) -> str:
