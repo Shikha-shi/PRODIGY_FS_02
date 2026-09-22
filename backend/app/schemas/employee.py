@@ -7,7 +7,12 @@ class EmployeeBase(BaseModel):
     first_name: str = Field(min_length=2, max_length=50)
     last_name: str = Field(min_length=2, max_length=50)
     email: EmailStr
-    phone: str | None = Field(default=None, max_length=20)
+    phone: str | None = Field(
+    default=None,
+    min_length=10,
+    max_length=10,
+    pattern=r"^\d{10}$"
+)
     department: str = Field(min_length=2, max_length=100)
     position: str = Field(min_length=2, max_length=100)
     salary: float = Field(gt=0)
@@ -22,7 +27,12 @@ class EmployeeUpdate(BaseModel):
     first_name: str | None = Field(default=None, min_length=2, max_length=50)
     last_name: str | None = Field(default=None, min_length=2, max_length=50)
     email: EmailStr | None = None
-    phone: str | None = Field(default=None, max_length=20)
+    phone: str | None = Field(
+    default=None,
+    min_length=10,
+    max_length=10,
+    pattern=r"^\d{10}$"
+)
     department: str | None = Field(default=None, min_length=2, max_length=100)
     position: str | None = Field(default=None, min_length=2, max_length=100)
     salary: float | None = Field(default=None, gt=0)
